@@ -1,8 +1,8 @@
 ========================
-Nomina 2013
+Punto de venta 2013
 ========================
 
-Este proyecto calcula la nomina de los empleados en Mexico para el año 2013, de una o varias empresas con una o varias sucursales
+Este proyecto se usa para calcular las ventas del dia a dia de una mediana empresa para llevar control de inventarios, venta diaria y facturación ayudando asi a la toma de desiciones
 
 *nota: Se ira actualizando con el regimen de la ley federal del trabajo cada que se registre un cambio*
 
@@ -16,11 +16,11 @@ Primero, tu debes asegurarte de contar con un ambiente virtual (http://www.virtu
 
 Clonamos el repositorio
 
-    $ git clone https://github.com/flipjack/sistema_de_nomina.git
+    $ git clone https://github.com/flipjack/punto_de_venta.git
 
 Renombramos el proyecto
 
-    $ mv sistema_de_nomina nombre_del_proyecto
+    $ mv punto_de_venta nombre_del_proyecto
 
 Instalamos el ambiente virtual en el ordenador:
 
