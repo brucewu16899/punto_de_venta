@@ -2,3 +2,5 @@
 -r base.txt
 
 psycopg2==2.5.1
+djutils==0.3.2
+docutils==0.11

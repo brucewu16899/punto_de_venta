@@ -27,6 +27,7 @@ urlpatterns = patterns('',
   url(r'^validar-supervisor/$', 'puntodeventa.views.validar_supervisor', name='validar_supervisor'),
 
   url(r'^administracion/', include(admin.site.urls)),
+  url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
   url(r'media/(?P<path>.*)', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
   url(r'static/(?P<path>.*)', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
   url(r'^reset/$', 'puntodeventa.views.reset'),

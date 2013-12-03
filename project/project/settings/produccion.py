@@ -10,7 +10,7 @@ from django.core.exceptions import ImproperlyConfigured
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'escom_blog', # The following settings are not used with sqlite3:
+        'NAME': 'puntodeventa_demo', # The following settings are not used with sqlite3:
         'USER': 'zares',
         'PASSWORD': PASSWORD_DB_PRIV,
         'HOST': '',# Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.

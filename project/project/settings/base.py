@@ -31,7 +31,7 @@ TEMPLATE_DEBUG = DEBUG
 ########## SITE CONFIGURATION
 # Hosts/domain names that are valid for this site
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ['www.grupodms.webfactional.com','grupodms.webfactional.com']
+ALLOWED_HOSTS = ['www.weareinvaders.com.mx','weareinvaders.com.mx']
 ########## END SITE CONFIGURATION
 
 
@@ -174,7 +174,9 @@ DJANGO_APPS = (
 
     # Admin panel and documentation:
     'django.contrib.admin',
-    # 'django.contrib.admindocs',
+    'django.contrib.admindocs',
+    'djutils',
+    
 )
 
 THIRD_PARTY_APPS = (
