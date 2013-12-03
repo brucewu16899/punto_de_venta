@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>{{empresa}}</title>
+
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- basic styles -->
+
+		<link href="{{STATIC_URL}}ace/assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/font-awesome.min.css" />
+
+		<!--[if IE 7]>
+		  <link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/font-awesome-ie7.min.css" />
+		<![endif]-->
+
+		<!-- page specific plugin styles -->
+
+		<!-- fonts -->
+
+		<link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/ace-fonts.css" />
+
+		<!-- ace styles -->
+
+		<link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/ace.min.css" />
+		<link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/ace-skins.min.css" />
+		<link rel="shortcut icon" href="{{STATIC_URL}}ico/favicon.ico">
+
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+
+		<!-- ace settings handler -->
+
+		<script src="{{STATIC_URL}}ace/assets/js/ace-extra.min.js"></script>
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+		<!--[if lt IE 9]>
+		<script src="{{STATIC_URL}}ace/assets/js/html5shiv.js"></script>
+		<script src="{{STATIC_URL}}ace/assets/js/respond.min.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<div class="navbar navbar-default" id="navbar" style="background-color:#{%if usuario.sucursal.color == 'f9f9f9'%}5090c1{%else%}{{usuario.sucursal.color}}{%endif%};">
+			<script type="text/javascript">
+				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+			</script>
+			<div class="navbar-container" id="navbar-container" >
+				<div class="navbar-header pull-right" role="navigation">
+					<ul class="nav ace-nav">
+						<li class="grey">
+							
+							<form action="#" method="post" id="codigo" class="form-horizontal">{% csrf_token %}
+								<div class="input-append" align="center">
+									<input id="codigo_barras" type="text" maxlength="25" placeholder='Ingresa un codigo' autofocus/>						
+									<button class="btn btn-small btn-{% include 'bases/color_boton_menu.html'%}" type="submit"> 
+										<i class="icon-barcode bigger-110"></i>
+										Cobrar
+									</button>
+									&nbsp; &nbsp;
+								
+							</form>
+						 	
+						</li>
+						<li class="red">
+							<a data-toggle="dropdown" class="dropdown-toggle">
+								PENDIENTE DE PAGO
+								<span class="badge badge-grey"> Contacte a Grupo DMS</span>
+							</a>
+						</li>
+						{% comment %}
+						<li class="grey">
+							<a data-toggle="dropdown" class="dropdown-toggle">
+								{{empresa}}
+								<span class="badge badge-grey">{{usuario.sucursal.nombre}}</span>
+							</a>
+						</li>
+						{% endcomment %}
+						<li class="grey">
+							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+								<span class="user-info">
+									<small>{{usuario.usuario}}</small>
+									{{usuario.perfil|capfirst}}
+								</span>
+								<i class="icon-caret-down"></i>
+							</a>
+							<ul class="user-menu pull-right dropdown-menu dropdown-{% include 'bases/color_boton_menu.html'%} dropdown-caret dropdown-closer">
+								<li>
+									<a href="{%url 'salir'%}">
+										<i class="icon-off"></i>
+										Salir
+									</a>
+								</li>
+								{%if usuario.perfil == 'vendedor'%}
+								<div class="hr-10 hr-double dotted" ></div>
+								<li>
+									<a data-toggle="modal" href="#corte-modal">
+										<i class="icon-cut"></i>
+										Corte
+									</a>
+								</li>
+								{%endif%}		
+							</ul>
+						</li>
+					</ul><!-- /.ace-nav -->
+				</div><!-- /.navbar-header -->
+			</div><!-- /.container -->
+		</div>
+		<!-- Modal -->
+		<div class="modal fade" id="corte-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<form action="#" method="post" id="corte-formulario" class="form-horizontal">{% csrf_token %}
+						<div class="modal-header">
+							  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							  <h4 class="modal-title">Introduce la contraseña</h4>
+						</div>
+						<div class="modal-body">
+							<div class="row">
+								<div class="col-xs-12">
+								
+									<div class="control-group" align="center">
+										<input  type="password" class='span6' id ="pass" placeholder='Su codigo aqui'/>
+									</div>
+									<br>
+									<div class="hr-8"></div>
+									<div class="control-group" align="center">
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(1,'pass')">
+										<i class="micon-seven-segment-2"></i>
+										</button>
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(2,'pass')">
+										<i class="micon-seven-segment-3"></i>
+										</button>
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(3,'pass')">
+										<i class="micon-seven-segment-4"></i>
+										</button>
+										<div class="hr-8"></div>
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(4,'pass')">
+										<i class="micon-seven-segment-5"></i>
+										</button>
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(5,'pass')">
+										<i class="micon-seven-segment-6"></i>
+										</button>
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(6,'pass')">
+										<i class="micon-seven-segment-7"></i>
+										</button>
+										<div class="hr-8"></div>
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(7,'pass')">
+										<i class="micon-seven-segment-8"></i>
+										</button>
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(8,'pass')">
+										<i class="micon-seven-segment-9"></i>
+										</button>
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(9,'pass')">
+										<i class="micon-seven-segment-10"></i>
+										</button>
+										<div class="hr-8"></div>
+										<button  type="reset" class="btn btn-app btn-grey btn-xs" >
+										<i class="icon-remove"></i>
+										</button>
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(0,'pass')">
+										<i class="micon-seven-segment"></i>
+										</button>
+										<button  type="reset" class="btn btn-app btn-grey btn-xs" >
+										<i class="icon-remove"></i>
+										</button>
+									</div>				
+								</div>	
+							</div>	
+						</div>
+						<div class="modal-footer">
+						  <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+						  <button type="submit" class="btn btn-primary" >Pedir corte</button>
+						</div>
+					</form>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->	
+
+		<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				
+				<div class="breadcrumbs" id="breadcrumbs">
+					<script type="text/javascript">
+						try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+					</script>
+					<ul class="breadcrumb">
+						{%for menu in menus%}
+							<a href='{%url "vendedor" menu.slugify %}' class="btn {% include 'bases/color_menu.html'%} btn-sm">{{menu.nombre}}</a>
+						{%endfor%}
+					</ul><!-- .breadcrumb -->
+				</div>
+				<div class="page-content">
+					<div class="row">
+						<div class="col-xs-12">
+							<!-- PAGE CONTENT BEGINS -->
+							<form action="#" method="post" id="formulario" class="form-horizontal">{% csrf_token %}
+							<div class="row">
+								<div class="col-xs-3">
+									<div class="control-group" align="center">
+										<input  type="number" name='cantidad' class='span6' id ="text" step=".5" min="1" placeholder='1'/>
+									</div>
+									<div class="hr-8"></div>
+									<div class="control-group" align="center">
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(1,'text')">
+										<i class="micon-seven-segment-2"></i>
+										</button>
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(2,'text')">
+										<i class="micon-seven-segment-3"></i>
+										</button>
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(3,'text')">
+										<i class="micon-seven-segment-4"></i>
+										</button>
+										<div class="hr-8"></div>
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(4,'text')">
+										<i class="micon-seven-segment-5"></i>
+										</button>
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(5,'text')">
+										<i class="micon-seven-segment-6"></i>
+										</button>
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(6,'text')">
+										<i class="micon-seven-segment-7"></i>
+										</button>
+										<div class="hr-8"></div>
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(7,'text')">
+										<i class="micon-seven-segment-8"></i>
+										</button>
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(8,'text')">
+										<i class="micon-seven-segment-9"></i>
+										</button>
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(9,'text')">
+										<i class="micon-seven-segment-10"></i>
+										</button>
+										<div class="hr-8"></div>
+										<button  type="button" id="centavos" class="btn btn-app btn-grey btn-xs" onClick="sumar('text')">
+										. 50
+										</button>
+										<button  type="button" class="btn btn-app btn-inverse btn-xs" onClick="escribir(0,'text')">
+										<i class="micon-seven-segment"></i>
+										</button>
+										<button  type="reset" class="btn btn-app btn-grey btn-xs" >
+										<i class="icon-remove"></i>
+										</button>
+									</div>
+									<div class="hr-8 hr"></div>
+									<div class="control-group" align="center">
+										<div id="ticket">
+											<p id='totales' style="line-height:12px;">
+												{%if tickets%}
+													<font size="5">$ {{total}}</font></br><font size="3">{{cantidad}} productos </font><br><br>
+												{%else%}
+													<font size='2'>Ticket</font>
+												{%endif%}
+											</p>
+											<p id="registros" style="line-height:12px;">
+												{%for registros in tickets%}
+													<strong>{{registros.cantidad}} u de {{registros.producto.nombre}}</strong></br>
+												{%empty%}
+													No hay productos
+												{%endfor%}
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-9">
+									<div class="row">
+										<div class="col-xs-7">
+											<h3 class="header smaller lighter"> 
+												<font color="{%if usuario.sucursal.color == 'f9f9f9'%}5090c1{%else%}{{usuario.sucursal.color}}{%endif%}">Principales</font>		
+											</h3>
+										</div>
+										<div class="col-xs-5">
+											<button id="imprimir" onClick="imprimir_ticket()" class='btn btn-app btn-sm btn-inverse radius-2' {%if not tickets%}disabled{%endif%}><i class="icon-print"></i></button>
+											<button  id="cancelar_ticket" value="cancelar_ticket" class="btn btn-app btn-sm btn-grey radius-2 pull-right" type="submit">
+												<i class="icon-trash"></i>
+											</button>
+										</div>
+										<div class="col-xs-12">
+											{% for producto in principales %}
+												<button  style="line-height:12px;" value="{{producto.id}}" id="{{producto.id}}" type="submit" class="btn btn-app btn-{%include 'bases/color_boton.html'%} btn-large radius-4">
+												{%if not producto.precio_dinamico%}	
+												<span class="badge badge-inverse">$ {{producto.precio|floatformat:2}}</span>
+												{%else%}
+												<span class="badge badge-{%include 'bases/color_boton.html'%} badge-left">$ {{producto.precio|floatformat:2}}</span>
+												<span class="badge badge-transparent"><i class="inverse icon-asterisk"></i></span>
+												{%endif%}	
+												<br>
+												<font size="2">{{producto.nombre|lower|capfirst}}</font>
+												<br>
+												<br>
+												</button>
+											{% endfor %}								
+										</div>
+										
+										<div class="col-xs-12">
+											<div class="hr-10 hr-double dotted" ></div>
+											{% for producto in productos %}
+												<button  style="line-height:12px;" value="{{producto.id}}" id="{{producto.id}}" type="submit" class="btn btn-app btn-{%include 'bases/color_boton.html'%} btn-large radius-4">
+												{%if not producto.precio_dinamico%}	
+												<span class="badge badge-inverse">$ {{producto.precio|floatformat:2}}</span>
+												{%else%}
+												<span class="badge badge-{%include 'bases/color_boton.html'%} badge-left">$ {{producto.precio|floatformat:2}}</span>
+												<span class="badge badge-transparent"><i class="inverse icon-asterisk"></i></span>
+												{%endif%}
+												<br>
+												<font size="2">{{producto.nombre|lower|capfirst}}</font>
+												<br>
+												<br>
+												</button>
+											{% endfor %}
+										</div>
+									<div>
+								</div>							
+							</div>
+						</form>
+							<!-- PAGE CONTENT ENDS -->
+						</div><!-- /.col -->
+					</div><!-- /.row -->
+				</div><!-- /.page-content -->
+							
+			</div><!-- /.main-container-inner -->
+		</div><!-- /.main-container -->
+
+		<!-- basic scripts -->
+
+		<!--[if !IE]> -->
+
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='{{STATIC_URL}}ace/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+<script type="text/javascript">
+ window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='{{STATIC_URL}}ace/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="{{STATIC_URL}}ace/assets/js/bootstrap.min.js"></script>
+		<script src="{{STATIC_URL}}ace/assets/js/typeahead-bs2.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+
+		<!-- ace scripts -->
+
+		<script src="{{STATIC_URL}}ace/assets/js/ace-elements.min.js"></script>
+		<script src="{{STATIC_URL}}ace/assets/js/ace.min.js"></script>
+		<script src="{{STATIC_URL}}js/formularios.js"></script>
+
+		<!-- inline scripts related to this page -->
+
+		<script type="text/javascript">
+			function escribir(valor,campo) {
+			  var elemento = document.getElementById(campo);
+			  centavos = elemento.value.substring(elemento.value.length-2,elemento.value.length);
+			  if (centavos != .50){
+			  	elemento.value += valor;
+			  }
+			}
+			function sumar(campo) {
+			  	var elemento = document.getElementById(campo);
+			  	centavos = elemento.value.substring(elemento.value.length-2,elemento.value.length);
+				if (centavos == ''){
+			  		elemento.value = .5;
+			  	}
+			  	if (centavos != .50){
+			  		elemento.value = parseInt(elemento.value, 10) + .5;
+			  	}	
+			}
+
+			var producto;
+			$('.btn').click(function() {
+				producto = $(this).attr('id')			
+			})
+
+			$('#formulario').on('submit', function(e){
+			 	e.preventDefault();
+			 	var data = new FormData();
+			 	data.append("producto", $('#' + producto).val());
+			 	data.append("cantidad", $('#text').val());
+
+			 	$.ajax({
+				 	 url: '{%url "validar_ticket"%}',
+				 	 data: data,
+				 	 type: "POST",
+				 	 success: function(data){
+				 	 	
+				 	 	if (data.agregar_registro == true)
+				 	 	{
+				 	 		$("#imprimir").removeAttr("disabled");
+					 	 	$("#totales").empty();
+							$("#totales").append('<font size="5">$ '+(data.total*1.0).toFixed(1)+'</font></br><font size="3">'+data.cantidad+' productos </font><br><br>');
+					 	 	$("#registros").empty();		 	 				 	 	
+					 	 	for (registros in data.ticket) {
+					 	 		$("#registros").append(data.ticket[registros] + '</br>');
+							}
+							$("#formulario").each (function(){
+	  							this.reset();
+							});
+							$("#codigo").each (function(){
+	  							this.reset();
+							});
+
+						}
+						else if(data.cancelar_ticket == true)
+						{
+							$("#totales").empty();
+							$("#totales").append('<font size="3">Ticket</font>');
+							$("#registros").empty();
+							$("#registros").append('No hay productos');
+							$("#imprimir").attr("disabled","disabled");
+						}	
+				 	 },
+				 	 error: function(data){
+				 	 	alert('Algo salio mal!')			 	 					 	 
+				 	 },
+				 	 processData: false,
+				 	 contentType: false
+			 	})
+			});
+			$('#codigo').on('submit', function(e){
+
+			 	e.preventDefault();
+			 	var data = new FormData();
+			 	
+			 	data.append("codigo", $('#codigo_barras').val());
+			 	data.append("cantidad", $('#text').val());
+
+			 	$.ajax({
+				 	 url: '{%url "validar_codigo"%}',
+				 	 data: data,
+				 	 type: "POST",
+				 	 success: function(data){
+
+				 	 	if (data.agregar_registro == true)
+				 	 	{
+				 	 		$("#imprimir").removeAttr("disabled");
+					 	 	$("#totales").empty();
+							$("#totales").append('<font size="5">$ '+(data.total*1.0).toFixed(1)+'</font></br><font size="3">'+data.cantidad+' productos </font><br><br>');
+					 	 	$("#registros").empty();		 	 				 	 	
+					 	 	for (registros in data.ticket) {
+					 	 		$("#registros").append(data.ticket[registros] + '</br>');
+							}
+							$("#formulario").each (function(){
+	  							this.reset();
+							});
+							$("#codigo").each (function(){
+	  							this.reset();
+							});	
+						}
+						else if(data.error_codigo == true)
+						{
+							alert(data.mensaje);
+						}
+				 	 	
+				 	 		
+				 	 },
+				 	 error: function(data){
+				 	 	alert('Algo salio mal!')			 	 					 	 
+				 	 },
+				 	 processData: false,
+				 	 contentType: false
+			 	})
+			});
+
+
+			$('#corte-formulario').on('submit', function(e){
+				$('#corte-modal').modal('hide')
+			 	e.preventDefault();
+			 	var data = new FormData();
+			 	data.append("pass", $('#pass').val());
+			 	$.ajax({
+				 	 url: '{%url "validar_supervisor"%}',
+				 	 data: data,
+				 	 type: "POST",
+				 	 success: function(data){
+				 	 	if (data.corte == false){
+				 	 		alert(data.mensaje);
+				 	 	}
+				 	 	else if(data.corte == true){
+				 	 		$('#pass').val('');
+				 	 		var w=550;
+							var h=650;
+							var left = (screen.width/2)-(w/2);
+							var top = (screen.height/2)-(h/2);
+							
+							window.open('/corte-consulta/'+data.folio+'/','', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
+				 	 	}
+				 	 },
+				 	 error: function(data){
+				 	 	alert('Algo salio mal!')			 	 					 	 
+				 	 },
+				 	 processData: false,
+				 	 contentType: false
+			 	})
+			});
+
+			function imprimir_ticket() {	
+				$("#imprimir").attr("disabled","disabled");
+				var w=700;
+				var h=550;
+				var left = (screen.width/2)-(w/2);
+				var top = (screen.height/2)-(h/2);
+				$("#registros").empty();
+				$("#registros").append('No hay productos');
+				$("#totales").empty();
+				$("#totales").append('<font size="3">Ticket</font>');
+				window.open('{%url "imprimir_ticket"%}','', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
+			};	
+		</script>
+	</body>
+</html>
+

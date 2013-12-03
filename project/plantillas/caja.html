@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>{{empresa}}</title>
+
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- basic styles -->
+
+		<link href="{{STATIC_URL}}ace/assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/font-awesome.min.css" />
+
+		<!--[if IE 7]>
+		  <link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/font-awesome-ie7.min.css" />
+		<![endif]-->
+
+		<!-- page specific plugin styles -->
+
+		<!-- fonts -->
+
+		<link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/ace-fonts.css" />
+
+		<!-- ace styles -->
+
+		<link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/ace.min.css" />
+		<link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/ace-skins.min.css" />
+		<link rel="shortcut icon" href="{{STATIC_URL}}ico/favicon.ico">
+
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+
+		<!-- ace settings handler -->
+
+		<script src="{{STATIC_URL}}ace/assets/js/ace-extra.min.js"></script>
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+		<!--[if lt IE 9]>
+		<script src="{{STATIC_URL}}ace/assets/js/html5shiv.js"></script>
+		<script src="{{STATIC_URL}}ace/assets/js/respond.min.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<div class="navbar navbar-default" id="navbar" style="background-color:#{%if usuario.sucursal.color == 'f9f9f9'%}5090c1{%else%}{{usuario.sucursal.color}}{%endif%};">
+			<script type="text/javascript">
+				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+			</script>
+			<div class="navbar-container" id="navbar-container" >
+				<div class="navbar-header pull-right" role="navigation">
+					<ul class="nav ace-nav">
+						<li class="grey">
+							<a data-toggle="dropdown" class="dropdown-toggle">
+								{{empresa}}
+								<span class="badge badge-grey">{{usuario.sucursal.nombre}}</span>
+							</a>
+						</li>
+						<li class="grey">
+							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+								<span class="user-info">
+									<small>{{usuario.usuario}}</small>
+									{{usuario.perfil|capfirst}}
+								</span>
+								<i class="icon-caret-down"></i>
+							</a>
+							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
+								<li>
+									<a href="{%url 'salir'%}">
+										<i class="icon-off"></i>
+										Salir
+									</a>
+								</li>			
+							</ul>
+						</li>
+					</ul><!-- /.ace-nav -->
+				</div><!-- /.navbar-header -->
+			</div><!-- /.container -->
+		</div>
+
+		<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				
+				<div class="breadcrumbs" id="breadcrumbs">
+					<script type="text/javascript">
+						try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+					</script>
+					<div align="center">
+						<b id="mensaje"> </b>
+					</div>
+				</div>
+				<div class="page-content">
+					<div class="row">
+						<div class="col-xs-12">				
+							<form action="#" method="post" id="cobrar" class="form-horizontal">{% csrf_token %}											
+								<div class="input-append span12" align="center">
+									<input id="folio" type="text" maxlength="12" autofocus/>						
+									<button class="btn btn-small btn-warning" type="submit"> 
+										<i class="icon-barcode bigger-110"></i>
+										Cobrar
+									</button>							
+								</div>
+							</form>
+							<hr>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<table  border="0" style="line-height:13px;" id='pendientes'>
+							<thead>
+								<tr align="center" >
+									<td colspan="3">
+										<font size='3'>Pendientes</font>
+									</td>
+								</tr>
+								<tr align="center">
+									<td class="span4">
+										Folio
+									</td>
+									<td class="span4">
+										Vendedor / Hora
+									</td>
+									<td class="span4">
+										Cantidad
+									</td>
+								</tr>
+								<tr>
+									<td class="span4" align="center">
+										-
+									</td>
+									<td class="span4" align="center">
+										-
+									</td>
+									<td class="span4" align="center">
+										-
+									</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr align="center">
+									<td class="span4">
+
+									</td>
+									<td class="span4">
+
+									</td>
+									<td class="span4">
+
+									</td>
+								</tr>
+								{%for pendiente in pendientes%}
+								<tr align="center" id="{{pendiente.folio}}">
+									<td class="span4">
+										{{pendiente.folio}}
+									</td>
+									<td class="span4">
+										{{pendiente.vendedor}}/{{pendiente.hora|time:"H:i"}}
+									</td>
+									<td class="span4">
+										$ {{pendiente.total}}
+									</td>
+								</tr>
+								{%endfor%}
+							</tbody>		
+							</table>
+						</div>
+					
+						<div class="col-md-4">
+							<table  border="0" style="line-height:13px; " id='cobrados'>
+								<thead>
+									<tr align="center" >
+										<td colspan="3">
+											<font size='3'>Cobrados</font>
+										</td>
+									</tr>
+									<tr align="center">
+										<td class="span4">
+											Folio
+										</td>
+										<td class="span4">
+											Vendedor / Hora
+										</td>
+										<td class="span4">
+											Cantidad
+										</td>
+									</tr>
+
+									<tr>
+										<td class="span4" align="center">
+											-
+										</td>
+										<td class="span4" align="center">
+											-
+										</td>
+										<td class="span4" align="center">
+											-
+										</td>
+									</tr>
+								</thead>	
+								<tbody>
+									<tr align="center">
+										<td class="span4">
+
+										</td>
+										<td class="span4">
+
+										</td>
+										<td class="span4">
+
+										</td>
+									</tr>
+									{%for cobrado in cobrados%}
+									<tr align="center">
+										<td class="span4">
+											{{cobrado.folio}}
+										</td>
+										<td class="span4">
+											{{cobrado.vendedor}}/{{cobrado.hora|time:"H:i"}}
+										</td>
+										<td class="span4">
+											$ {{cobrado.total}}
+										</td>
+									</tr>
+									{%endfor%}
+								</tbody>		
+							</table>	
+						</div>
+						<div class="col-md-4">
+							<table  border="0" style="line-height:25px;" id="cambio">
+								<thead>
+								<tr align="center" >
+									<td colspan="3">
+										<font size='3'>Cambio</font>
+									</td>
+								</tr>
+								<tr align="center">
+									<td class="span4">
+										Denominacion
+									</td>
+									<td class="span4">
+										Cambio
+									</td>								
+								</tr>
+
+								</thead>
+								<tbody>
+									<tr align="center"><td class="span4">$ 500</td><td class="span4" id='500'> - </td></tr>
+									<tr align="center"><td class="span4">$ 400</td><td class="span4" id='400'> - </td></tr>
+									<tr align="center"><td class="span4">$ 200</td><td class="span4" id='200'> - </td></tr>
+									<tr align="center"><td class="span4">$ 150</td><td class="span4" id='150'> - </td></tr>
+									<tr align="center"><td class="span4">$ 100</td><td class="span4" id='100'> - </td></tr>
+									<tr align="center"><td class="span4">$ 70</td><td class="span4" id='70'> - </td></tr>
+									<tr align="center"><td class="span4">$ 50</td><td class="span4" id='50'> - </td></tr>
+									<tr align="center"><td class="span4">$ 20</td><td class="span4" id='20'> - </td></tr>									
+								</tbody>							
+							</table>							
+						</div><!-- /.col -->
+					</div><!-- /.row -->
+				</div><!-- /.page-content -->
+							
+			</div><!-- /.main-container-inner -->
+		</div><!-- /.main-container -->
+
+		<!-- basic scripts -->
+
+		<!--[if !IE]> -->
+
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='{{STATIC_URL}}ace/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+<script type="text/javascript">
+ window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='{{STATIC_URL}}ace/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="{{STATIC_URL}}ace/assets/js/bootstrap.min.js"></script>
+		<script src="{{STATIC_URL}}ace/assets/js/typeahead-bs2.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+
+		<!-- ace scripts -->
+		<script src="http://{{ipnode}}:{{portnode}}/socket.io/socket.io.js"></script>
+		<script src="{{STATIC_URL}}ace/assets/js/ace-elements.min.js"></script>
+		<script src="{{STATIC_URL}}ace/assets/js/ace.min.js"></script>
+		<script src="{{STATIC_URL}}js/formularios.js"></script>
+
+		<!-- inline scripts related to this page -->
+
+		<script>
+			
+
+			$('#cobrar').on('submit', function(e){
+			 	e.preventDefault();
+			 	var data = new FormData();
+
+			 	data.append("folio", $('#folio').val());
+
+
+			 	$.ajax({
+				 	 url: '{%url "cobrar"%}',
+				 	 data: data,
+				 	 type: "POST",
+				 	 success: function(data){	
+				 	 	if (data.cobrado){
+				 	 		$("#mensaje").empty();
+							$("#mensaje").append(">>> Folio: " + data.folio + " cobrado con exito por, <font size='3'>$ "+ (data.total * 1.0).toFixed(1) + " </font><<<");
+							$("#"+data.folio).empty();
+							$('#cobrados > tbody > tr:first').before('<tr align="center"><td class="span4">'+data.folio+'</td><td class="span4">'+data.vendedor+'/'+data.hora+'</td><td class="span4">$ '+data.total+'</td></tr>');
+							//Tickets
+							$('#500').empty();
+							$('#400').empty();
+							$('#200').empty();
+							$('#150').empty();
+							$('#100').empty();
+							$('#70').empty();
+							$('#50').empty();
+							$('#20').empty();
+
+							if(data.total<=500){
+								$('#500').append((500-(data.total*1.0)).toFixed(1));
+							}
+							if(data.total<=400){
+								$('#400').append((400-(data.total*1.0)).toFixed(1));
+							}
+							if(data.total<=200){
+								$('#200').append((200-(data.total*1.0)).toFixed(1));
+							}
+							if(data.total<=150){
+								$('#150').append((150-(data.total*1.0)).toFixed(1));
+							}
+							if(data.total<=100){
+								$('#100').append((100-(data.total*1.0)).toFixed(1));
+							}
+							if(data.total<=70){
+								$('#70').append((70-(data.total*1.0)).toFixed(1));
+							}
+							if(data.total<=50){
+								$('#50').append((50-(data.total*1.0)).toFixed(1));
+							}
+							if(data.total<=20){
+								$('#20').append((20-(data.total*1.0)).toFixed(1));
+							}
+							$("#folio").val("");
+				 	 	}
+				 	 	else{
+				 	 		alert(data.mensaje);
+							$("#mensaje").empty();
+							$("#folio").val("");
+							$("#mensaje").append("<font color='#963f28'> >>> No se encontro el ticket: " + data.folio + " <<<");
+
+				 	 	}
+				 	 },
+				 	 error: function(data){
+				 	 	alert('Algo salio mal!');
+				 	 				 	 					 	 
+				 	 },
+				 	 processData: false,
+				 	 contentType: false
+			 	})
+			});
+			$(document).ready(function(){
+				if (!String.prototype.format) {
+  					String.prototype.format = function() {
+	    				var args = arguments;
+	    				return this.replace(/{(\d+)}/g, function(match, number) { 
+	      				return typeof args[number] != 'undefined'? args[number] : match ;
+      					});
+      				};
+				}
+				var ip = "{{ipnode}}"
+				var port = "{{portnode}}"
+				var socket = io.connect('http://'+ ip +':' + port);
+				var a = "{{usuario.sucursal}}"
+				socket.on('append-ticket', function(data){
+					eval("var datos="+ data);
+
+					if (a == datos.sucursal){
+
+						if(datos.estatus == "pendiente" ){
+							var to_append = '<tr id="{4}" align="center"><td class="span4">{0}</td><td class="span4">{1}/{2}</td><td class="span4">$ {3}</td></tr>'.format(datos.folio, datos.vendedor, datos.hora, (datos.cantidad* 1.0).toFixed(1), datos.folio)
+							$('#pendientes > tbody > tr:first').before(to_append);
+						}
+						else{
+							var to_append = '<tr align="center"><td class="span4">{0}</td><td class="span4">{1}/{2}</td><td class="span4">$ {3}</td></tr>'.format(datos.folio, datos.vendedor, datos.hora, (datos.cantidad* 1.0).toFixed(1), datos.folio)
+							$('#cobrados > tbody > tr:first').before(to_append);
+						}
+
+					}
+
+				});
+			});
+
+		</script>
+	</body>
+</html>

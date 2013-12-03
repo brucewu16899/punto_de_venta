@@ -1,0 +1,6 @@
+Django==1.6
+South==0.8.4
+django-suit==0.2.5
+six==1.4.1
+slugify==0.0.1
+wsgiref==0.1.2

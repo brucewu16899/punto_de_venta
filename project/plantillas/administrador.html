@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+{% load humanize %}
+{% load cortes_x%}
+	<head>
+		<meta charset="utf-8" />
+		<title>{{empresa}}</title>
+
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- basic styles -->
+
+		<link href="{{STATIC_URL}}ace/assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/font-awesome.min.css" />
+
+		<!--[if IE 7]>
+		  <link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/font-awesome-ie7.min.css" />
+		<![endif]-->
+
+		<!-- page specific plugin styles -->
+
+		<!-- fonts -->
+
+		<link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/ace-fonts.css" />
+
+		<!-- ace styles -->
+
+		<link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/ace.min.css" />
+		<link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/ace-skins.min.css" />
+
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="{{STATIC_URL}}ace/assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+
+		<!-- ace settings handler -->
+
+		<script src="{{STATIC_URL}}ace/assets/js/ace-extra.min.js"></script>
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+		<!--[if lt IE 9]>
+		<script src="{{STATIC_URL}}ace/assets/js/html5shiv.js"></script>
+		<script src="{{STATIC_URL}}ace/assets/js/respond.min.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<div class="navbar navbar-default" id="navbar" style="background-color:#{%if usuario.sucursal.color == 'f9f9f9'%}5090c1{%else%}{{usuario.sucursal.color}}{%endif%};">
+			<script type="text/javascript">
+				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+			</script>
+			<div class="navbar-container" id="navbar-container" >
+				<div class="navbar-header pull-right" role="navigation">
+					<ul class="nav ace-nav">
+						<li class="grey">
+							<a data-toggle="dropdown" class="dropdown-toggle">
+								{{empresa}}
+								<span class="badge badge-grey">{{usuario.sucursal.nombre}}</span>
+							</a>
+						</li>
+						<li class="grey">
+							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+								<span class="user-info">
+									<small>{{usuario.usuario}}</small>
+									{{usuario.perfil|capfirst}}
+								</span>
+								<i class="icon-caret-down"></i>
+							</a>
+							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
+								<li>
+									<a href="{%url 'salir'%}">
+										<i class="icon-off"></i>
+										Salir
+									</a>
+								</li>			
+							</ul>
+						</li>
+					</ul><!-- /.ace-nav -->
+				</div><!-- /.navbar-header -->
+			</div><!-- /.container -->
+		</div>
+
+		<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+
+				<div class="sidebar" id="sidebar">
+					<script type="text/javascript">
+						try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+					</script>
+
+					
+
+					<ul class="nav nav-list">
+						<li  class="active">
+							<a href="index.html">
+								<i class="icon-cogs"></i>
+								<span class="menu-text"> Administracion </span>
+							</a>
+						</li>
+						<li>
+							<a href="index.html">
+								<i class="icon-cut"></i>
+								<span class="menu-text"> Cortes </span>
+							</a>
+						</li>
+
+					</ul><!-- /.nav-list -->
+
+					<div class="sidebar-collapse" id="sidebar-collapse">
+						<i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+					</div>
+
+					<script type="text/javascript">
+						try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+					</script>
+				</div>
+
+				<div class="main-content">
+					<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb">
+							
+
+
+						</ul><!-- .breadcrumb -->
+
+						
+					</div>
+
+					<div class="page-content">
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+
+								<div class="row">
+									{%for sucursal in sucursales%}
+
+									<div class="col-xs-6 col-sm-3 pricing-box">
+										<div class="widget-box">
+											<div class="widget-header" style="color:Black;">
+												<h5 class="bigger lighter">{{sucursal.nombre}}</h5>
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main">
+													<ul class="list-unstyled spaced1">
+														{{sucursal|productos_venta|safe}}
+													</ul>
+
+													<hr />
+													<div class="price">
+														${{sucursal.iva|floatformat:2|intcomma}}
+														<small>/Iva</small>
+													</div>
+													<div class="price">
+														${{sucursal.total|floatformat:2|intcomma}}
+														<small>/TOTAL</small>
+													</div>
+												</div>
+
+												<div>
+													<a data-toggle="modal" href="#modal-{{sucursal.id}}" class="btn btn-block btn-{% include 'bases/color_sucursal.html'%} btn-lg">
+														<i class="icon-cut bigger-110"></i>
+														<span>Hacer corte</span>
+													</a>
+												</div>
+												<div class="hr-8 hr"></div>
+												<div>
+													<a href="#" class="btn btn-block">
+														<i class="icon-print bigger-110"></i>
+														<span>Imprimir</span>
+													</a>
+													<a href="#" class="btn btn-block">
+														<i class="icon-save bigger-110"></i>
+														<span>Guardar</span>
+													</a>
+												
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- Modal -->
+									<div class="modal fade" id="modal-{{sucursal.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+													<h4 class="modal-title">{{sucursal.nombre}}</h4>
+												</div>
+												<div class="modal-body">
+													Seguro que quiere hacer un corte? se borraran todos los tickets pendientes y todos los tickets cobrados pasaran a estatus de corte
+												</div>
+												<div class="modal-footer">
+													<button type="button"  class="btn btn-default" data-dismiss="modal">Cancelar</button>
+													<button type="button" name="cortez" id="{{sucursal.id}}" class="btn btn-primary" data-dismiss="modal">Hacer corte</button>
+												</div>
+											</div><!-- /.modal-content -->
+										</div><!-- /.modal-dialog -->
+									</div><!-- /.modal -->
+
+									{%endfor%}
+								</div>
+
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+
+				
+			</div><!-- /.main-container-inner -->
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="icon-double-angle-up icon-only bigger-110"></i>
+			</a>
+		</div><!-- /.main-container -->
+
+		<!-- basic scripts -->
+
+		<!--[if !IE]> -->
+
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='{{STATIC_URL}}ace/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+<script type="text/javascript">
+ window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='{{STATIC_URL}}ace/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="{{STATIC_URL}}ace/assets/js/bootstrap.min.js"></script>
+		<script src="{{STATIC_URL}}ace/assets/js/typeahead-bs2.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+
+		<!-- ace scripts -->
+
+		<script src="{{STATIC_URL}}ace/assets/js/ace-elements.min.js"></script>
+		<script src="{{STATIC_URL}}ace/assets/js/ace.min.js"></script>
+		<script src="{{STATIC_URL}}js/formularios.js"></script>
+		<script>
+
+			var sucursal;
+			$('[name="cortez"]').click(function() {
+				sucursal = $(this).attr('id')			
+			})
+			$('[name="cortez"]').on('click', function(e){
+
+				e.preventDefault();
+			 	var data = new FormData();			 
+			 	data.append("cortez", sucursal);
+
+			 	$.ajax({
+				 	 url: '{%url "cortez"%}',
+				 	 data: data,
+				 	 type: "POST",
+				 	 success: function(data){				 	 	
+				 	 	alert(data.sucursal);							
+				 	 },
+				 	 error: function(data){
+				 	 	alert('Algo salio mal!')			 	 					 	 
+				 	 },
+				 	 processData: false,
+				 	 contentType: false
+			 	})				 			 	
+			});
+		</script>
+
+		<!-- inline scripts related to this page -->
+	</body>
+</html>

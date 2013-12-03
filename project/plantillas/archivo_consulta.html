@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+{% load humanize %}
+{% load ticket %}
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Punto de venta</title>
+		<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
+		
+		
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+		
+		
+
+</head>
+ 
+<style media="print" type="text/css">
+.noimprime
+{
+display: none;
+}
+@page{margin: 0;}
+</style>
+   
+</br>
+  <table width="253" HEIGHT="50" border="0" align="center">
+  <tr>
+    <td  align="center"><font size="5">Corte: {{corte.folio}}</font></td>
+  </tr>
+  <tr>
+      <td  align="center"><b>{{datos.nombre}}</b></td>
+  </tr>
+  <tr>
+      <td style="line-height:13px; " align="center">
+			<font size='4'>{{sucursal.nombre_comercial}}</font><br>
+			{{sucursal.rfc}}<br>
+			{{corte.fecha}} // {{corte.hora|time:"H:i"}}<br>
+			{{usuario.sucursal.direccion}}<br>
+			{%if sucursal.direccion2%}{{sucursal.direccion2}}<br>{%endif%}
+			{%if sucursal.direccion3%}{{sucursal.direccion3}}<br>{%endif%}
+			{%if sucursal.direccion4%}{{sucursal.direccion4}}<br>{%endif%}
+			{%if sucursal.correo%}{{sucursal.correo}}<br>{%endif%}
+			{%if sucursal.telefono%}Tel. {{sucursal.telefono}}<br>{%endif%}
+			{%if sucursal.pagina%}{{sucursal.pagina}}<br>{%endif%}
+      </td>
+  </tr>
+</table>
+
+<div class="especial">
+	<table  width="253" border="1" align="center" style="line-height:15px;">
+		<thead>
+		<tr>
+			<th width="1%" class="text-center">
+				 <font size="1">Cant.</font>
+			</th>
+			<th class="text-center">
+				 <font size="1"> Prod.</font>
+			</th >
+			<th width="13%" class="text-center">
+				 <font size="1"> Un.</font>
+			</th>
+			<th width="13%" class="text-center">
+				 <font size="1"> IVA.</font>
+			</th>
+			<th width="17%" class="text-center">
+				 <font size="1">Total</font>
+			</th>
+		</tr>
+		</thead>
+		<tfoot>
+		<tr>
+			<th class="total-label text-right" colspan="4">
+				 Subtotal:
+			</th>
+			<th class="total-amount text-right" colspan="1">
+				 <font size="1">${{subtotal|floatformat:2|intcomma}}</font>
+			</th>
+		</tr>
+		<tr>
+			<th class="total-label text-right" colspan="4">
+				 Iva:
+			</th>
+			<th class="total-amount text-right" colspan="1">
+				 <font size="1">${{corte.iva|floatformat:2|intcomma}}</font>
+			</th>
+		</tr>
+
+		<tr>
+			<th class="total-label text-right" colspan="4">
+				 Total:
+			</th>
+			<th class="total-amount text-right" colspan="1" align="right">
+				 <font size="1">${{corte.total|floatformat:2|intcomma}}</font>
+			</th>
+		</tr>
+		</tfoot>
+		<tbody>
+		{%for registro in corte_productos%}
+		<tr>
+			<td align="center">
+				 <font size="1">{{registro.cantidad}}</font>
+			</td>
+			<td align="center">
+				<font size="1"> {{registro.producto}}</font>
+			</td>
+			<td align="right">
+				<font size="1"> ${{registro.precio|floatformat:2|intcomma}}</font>
+			</td>
+			<td align="right">
+				 <font size="1">${{registro.iva|floatformat:2|intcomma}}</font>
+			</td>
+			<td align="right">
+				 <font size="1">${{registro.total|floatformat:2|intcomma}}</font>
+			</td>
+		</tr>
+		{%endfor%}
+		</tbody>
+	</table>
+
+	
+</div>
+<br>
+<div align="center" >
+<a id="imprimir" class="btn btn-info btn-lg noimprime">Imprimir</a> &nbsp &nbsp
+</div>
+<br>
+
+<div class="panel-group" id="accordion">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="accordion-toggle " data-toggle="collapse" data-parent="#accordion" href="#tickets">
+          <p class='text-center'>Tickets del corte {{corte.folio}}</p>
+        </a>
+      </h4>
+    </div>
+    <div id="tickets" class="panel-collapse collapse">
+      <div class="panel-body">
+        <div class="especial">
+			<table  width="253" border="1" align="center" style="line-height:15px;">
+				<thead>
+				<tr>
+					<th align="center">
+						 <font size="1">Folio.</font>
+					</th>
+					<th align="center">
+						 <font size="1"> Total.</font>
+					</th>
+					<th align="center">
+						 <font size="1"> Iva.</font>
+					</th>
+					<th align="center">
+						 <font size="1"> Vendedor.</font>
+					</th>
+				</tr>
+				</thead>
+				
+				<tbody>
+				{%for registro in tickets%}
+				<tr>
+					<td align="left">
+						 <font size="1">{{registro.folio}}</font>
+					</td>
+					<td align="left">
+						<font size="1"> {{registro.total|floatformat:2|intcomma}}</font>
+					</td>
+					<td align="left">
+						<font size="1">$ {{registro.iva|floatformat:2|intcomma}}</font>
+					</td>
+					<td align="left">
+						 <font size="1">{{registro.vendedor}}</font>
+					</td>
+				</tr>
+				{%endfor%}
+				</tbody>
+			</table>
+	
+		</div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+                       
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='{{STATIC_URL}}ace/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+</script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<script>
+$( "#imprimir" ).click(function() {
+  window.print()
+});
+</script>
+
+</body>
+</html>	
+

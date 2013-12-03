@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+{% load humanize %}
+{% load ticket %}
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Punto de venta</title>
+		<link href="{{STATIC_URL}}asset/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="{{STATIC_URL}}asset/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+</head>
+ 
+<style media="print" type="text/css">
+.noimprime
+{
+display: none;
+}
+@page{margin: 0;}
+</style>
+   
+</br>
+  <table width="253" HEIGHT="50" border="0" align="center">
+  <tr>
+    <td  align="center"><font size="5">TOTAL: $ {{total|floatformat:2|intcomma}}</font></td>
+  </tr>
+  <tr>
+      <td  align="center"><b>{{datos.nombre}}</b></td>
+  </tr>
+  <tr>
+      <td style="line-height:13px; " align="center">
+			<font size='4'>{{usuario.sucursal.nombre_comercial}}</font><br>
+			{{usuario.sucursal.rfc}}<br>
+			{{crear_ticket.fecha}} // {{crear_ticket.hora|time:"H:i"}}<br>
+			{{usuario.sucursal.direccion}}<br>
+			{%if usuario.sucursal.direccion2%}{{usuario.sucursal.direccion2}}<br>{%endif%}
+			{%if usuario.sucursal.direccion3%}{{usuario.sucursal.direccion3}}<br>{%endif%}
+			{%if usuario.sucursal.direccion4%}{{usuario.sucursal.direccion4}}<br>{%endif%}
+			{%if usuario.sucursal.correo%}{{usuario.sucursal.correo}}<br>{%endif%}
+			{%if usuario.sucursal.telefono%}Tel. {{usuario.sucursal.telefono}}<br>{%endif%}
+			{%if usuario.sucursal.pagina%}{{usuario.sucursal.pagina}}<br>{%endif%}
+      </td>
+  </tr>
+</table>
+
+<div class="especial">
+	<table  width="253" border="1" align="center" style="line-height:15px;">
+		<thead>
+		<tr>
+			<th width="1%">
+				 <font size="1">Cant.</font>
+			</th>
+			<th>
+				 <font size="1"> Prod.</font>
+			</th>
+			<th width="13%">
+				 <font size="1"> Un.</font>
+			</th>
+			<th width="13%">
+				 <font size="1"> IVA.</font>
+			</th>
+			<th width="17%">
+				 <font size="1">Total</font>
+			</th>
+		</tr>
+		</thead>
+		<tfoot>
+		<tr>
+			<th class="total-label" colspan="4" align="right">
+				 Subtotal:
+			</th>
+			<th class="total-amount" colspan="1" align="right">
+				 <font size="1">${{subtotal|floatformat:2|intcomma}}</font>
+			</th>
+		</tr>
+		<tr>
+			<th class="total-label" colspan="4" align="right">
+				 Iva:
+			</th>
+			<th class="total-amount" colspan="1" align="right">
+				 <font size="1">${{iva|floatformat:2|intcomma}}</font>
+			</th>
+		</tr>
+
+		<tr>
+			<th class="total-label" colspan="4" align="right">
+				 Total:
+			</th>
+			<th class="total-amount" colspan="1" align="right">
+				 <font size="1">${{total|floatformat:2|intcomma}}</font>
+			</th>
+		</tr>
+		</tfoot>
+		<tbody>
+		{%for ticket in tickets%}
+		<tr align="center">
+			<td>
+				 <font size="1">{{ticket.cantidad}}</font>
+			</td>
+			<td>
+				<font size="1"> {{ticket.producto.alias}}</font>
+			</td>
+			<td align="right">
+				<font size="1"> ${{ticket.precio|floatformat:2|intcomma}}</font>
+			</td>
+			<td align="right">
+				 <font size="1">${{ticket.producto|iva:ticket|floatformat:2|intcomma}}</font>
+			</td >
+			<td align="right">
+				 <font size="1">${{ticket.precio|total:ticket.cantidad|floatformat:2|intcomma}}</font>
+			</td>
+		</tr>
+		{%endfor%}
+		</tbody>
+	</table>
+	<table  width="253" border="0" align="center" style="line-height:13px; ">
+		<tr align="center">
+			<td>
+<img src="http://barcode.tec-it.com/barcode.ashx?code=EAN13&modulewidth=fit&data={{folio}}&dpi=96&imagetype=gif&rotation=0&color=&bgcolor=&fontcolor=&quiet=0&qunit=mm" alt="codigo"/>		</tr>	
+			</td>
+		</tr>
+		<tr align="center">
+		<td>
+		Le atendio: {{usuario.usuario}}<br>
+		Gracias por su compra
+		</td>
+		</tr>
+</table>
+</div>	
+                       
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='{{STATIC_URL}}ace/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+</script>
+<script src="http://{{ipnode}}:{{portnode}}/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+	var ip = "{{ipnode}}"
+	var port = "{{portnode}}"
+	var socket = io.connect('http://'+ ip +':' + port);
+
+	function nodejs_ticket(){
+		socket.emit('nodejs_ticket1', {'username': '{{usuario.id}}'});
+
+	};
+
+
+	$( window ).load(function() {
+		nodejs_ticket()
+		setTimeout("window.print()", 10);
+		setTimeout("window.close()", 200);
+	});
+
+</script>
+
+</body>
+</html>	
+

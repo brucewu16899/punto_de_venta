@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Punto de venta</title>
+    <link href="{{STATIC_URL}}okendoken/css/application.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{STATIC_URL}}keyboard/css/keyboard.css" />
+    <link rel="shortcut icon" href="{{STATIC_URL}}ico/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+</head>
+<body>
+<div class="single-widget-container">
+    <section class="widget login-widget">
+        <header class="text-align-center">
+            <h4><i class="icon-cloud icon-large"></i> {{empresa}} </h4>
+        </header>
+        <div class="body">
+            <form method="post" id="formulario" enctype="multipart/form-data">{% csrf_token %}                
+                <fieldset>
+                    <div class="control-group no-margin">
+                        {%if error%}
+                            {%for mensaje in error%}
+                                <label class="control-label" align="center" for="error"><font color='#963f28'>{{mensaje}}</font></label>
+                            {%endfor%}
+                        {%endif%}
+                        <label class="control-label" for="usuario" >Usuario </label>
+                        <div class="control">
+                            <div class="input-prepend input-padding-increased">
+                                <span class="add-on">
+                                    <i class="eicon-user icon-large"></i>
+                                </span>
+                                {{formulario.usuario}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="password" >Contraseña</label>
+                        <div class="control">
+                            <div class="input-prepend input-padding-increased">
+                                <span class="add-on">
+                                    <i class="icon-lock icon-large"></i>
+                                </span>
+                                {{formulario.password}}
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-block btn-large btn-danger">
+                        <span class="small-circle"><i class="icon-caret-right"></i></span>
+                        <small>Entrar</small>
+                    </button>
+                    
+                    <br>
+                    
+                </div>
+            </form>
+        </div>
+        <footer>
+            <div class="facebook-login">
+                <a href="#" id="mostrar_teclado"><span>Mostrar teclado</span></a>
+            </div>
+        </footer>
+    </section>
+</div>
+
+<script src="{{STATIC_URL}}keyboard/js/libs/jquery-1.6.4.min.js"></script>
+<script src="{{STATIC_URL}}keyboard/js/jquery.keyboard/jquery.keyboard.js"></script>
+<script src="{{STATIC_URL}}keyboard/js/jquery.keyboard/keyboards/qwerty.js"></script>
+<script src="{{STATIC_URL}}keyboard/js/jquery.keyboard/plugins/form.js"></script>
+<script src="{{STATIC_URL}}keyboard/js/jquery.selection.js"></script>
+
+<script>
+        (function($){$(document).ready(function(){
+            $('#mostrar_teclado').click(function(){
+                var valor = document.getElementById('mostrar_teclado').innerHTML.substr('', 1).toLowerCase();
+                if(valor == "m" || valor == "<"){
+                    $('#mostrar_teclado').html('Cerrar teclado');
+                    $('body').keyboard({keyboard: 'qwerty', plugin: 'form'});
+                    $('.keyboard').css('display','block');
+                }else{
+                    $('.keyboard').css('display', 'none');
+                    $('#mostrar_teclado').html('Mostrar teclado');
+                }
+            });
+        })})(jQuery);
+</script>
+
+</body>
+</html>
