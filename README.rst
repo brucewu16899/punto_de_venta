@@ -11,9 +11,7 @@ Requisitos
 
 Python2.7 (vease documentacion) http://www.python.org/
 
-
 PIP (vease documentacion) http://www.pip-installer.org/en/latest/
-
 
 Node.js (vease documentacion) http://nodejs.org/
 
