@@ -6,6 +6,15 @@ Punto de venta para medianas empresas con pantallas touch, calcula las ventas di
 
 *nota: Se ira actualizando segun los impuestos que marca la ley*
 
+Demo
+---------------
+www.puntodeventa.grupodms.com
+
+usuario: Administrador, contraseña: 123 (Lleva control de todo el sistema)
+usuario: Autorizado, contraseña: 123 (Vendedor autorizado para cobrar a un cliente)
+usuario: Caja. contraseña: 123 (Cobra los tickets que emite un vendedor)
+usuario: Vendedor, contraseña: 123 (Vendedor que emite tickets para ser cobrados posteriormente)
+
 Requisitos
 ---------------
 
@@ -49,12 +58,16 @@ Corremos el servidor de Django
     $ mv punto_de_venta project
 
     $ cd project
-    
+
     $ python manage.py runserver
 
 Corremos el servidor de Node
 
 	$ node node.js/app.js
+
+Documentacion del proyecto
+--------------------------
+Podras encontrar toda la documentacion del proyecto en:
 
 Agradecimientos
 --------------------------
