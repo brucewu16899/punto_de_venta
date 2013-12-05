@@ -31,9 +31,8 @@ TEMPLATE_DEBUG = DEBUG
 ########## SITE CONFIGURATION
 # Hosts/domain names that are valid for this site
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ['www.weareinvaders.com.mx','weareinvaders.com.mx']
+ALLOWED_HOSTS = ['*']
 ########## END SITE CONFIGURATION
-
 
 ########## MANAGER CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
@@ -174,9 +173,7 @@ DJANGO_APPS = (
 
     # Admin panel and documentation:
     'django.contrib.admin',
-    'django.contrib.admindocs',
-    'djutils',
-    
+    'django.contrib.admindocs',    
 )
 
 THIRD_PARTY_APPS = (
@@ -239,6 +236,10 @@ WSGI_APPLICATION = 'wsgi.application'
 EMPRESA="DEMOSTRACION"
 VENCE=datetime.date(3014, 1, 1)
 IVA = .16
+IPDJANGO = 'localhost'
+PORTDJANGO = '8000'
+IPNODE = 'localhost'
+PORTNODE = '8080'
 
 # Django Suit configuration example
 SUIT_CONFIG = {

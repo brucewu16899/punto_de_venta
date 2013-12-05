@@ -10,7 +10,6 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 ########## END DEBUG CONFIGURATION
 
-
 ########## EMAIL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -56,8 +55,4 @@ EMAIL_HOST_USER = 'zares_prueba'
 EMAIL_HOST_PASSWORD = 'mail'
 EMAIL_PORT = 587
 
-### VARIABLES DEL PROYECTO
-IPDJANGO = '50.97.180.234'
-PORTDJANGO = '32641'
-IPNODE = '50.97.180.234'
-PORTNODE = '28553'
+
