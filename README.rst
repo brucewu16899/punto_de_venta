@@ -3,6 +3,7 @@ Punto de venta 2013
 ========================
 
 Punto de venta para medianas empresas con pantallas touch, calcula las ventas diarias, lleva un control de inventarios, control de caja en tiempo real
+
 *nota: Se ira actualizando segun los impuestos que marca la ley*
 
 Requisitos
