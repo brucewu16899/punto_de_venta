@@ -37,6 +37,7 @@ Instalamos el ambiente virtual en el ordenador:
 Activamos el ambiente virtual
 
     $ cd nombre_del_proyecto
+
     $ source bin/activate
 
 Instalamos las dependencias
@@ -46,7 +47,9 @@ Instalamos las dependencias
 Corremos el servidor de Django
 
     $ mv punto_de_venta project
+
     $ cd project
+    
     $ python manage.py runserver
 
 Corremos el servidor de Node
