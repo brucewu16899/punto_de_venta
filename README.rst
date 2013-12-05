@@ -72,6 +72,8 @@ Documentacion del proyecto
 --------------------------
 Podras encontrar toda la documentacion del proyecto en:
 
+http://doc-puntodeventa.grupodms.com/
+
 Agradecimientos
 --------------------------
 Gustavo Castellanos 
