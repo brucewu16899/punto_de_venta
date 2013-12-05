@@ -21,11 +21,11 @@ usuario: Vendedor, contraseña: 123 (Vendedor que emite tickets para ser cobrado
 Requisitos
 ---------------
 
-Python2.7 (vease documentacion) http://www.python.org/
+Python2.7 (vease documentacion) www.python.org
 
-PIP (vease documentacion) http://www.pip-installer.org/en/latest/
+PIP (vease documentacion) www.pip-installer.org/en/latest
 
-Node.js (vease documentacion) http://nodejs.org/
+Node.js (vease documentacion) nodejs.org
 
 Instalacion
 ---------------
