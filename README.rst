@@ -11,8 +11,11 @@ Demo
 www.puntodeventa.grupodms.com
 
 usuario: Administrador, contraseña: 123 (Lleva control de todo el sistema)
+
 usuario: Autorizado, contraseña: 123 (Vendedor autorizado para cobrar a un cliente)
+
 usuario: Caja. contraseña: 123 (Cobra los tickets que emite un vendedor)
+
 usuario: Vendedor, contraseña: 123 (Vendedor que emite tickets para ser cobrados posteriormente)
 
 Requisitos
